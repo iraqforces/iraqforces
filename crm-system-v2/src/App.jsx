@@ -92,7 +92,7 @@ function AuthProvider({ children }) {
 
   const refreshToken = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/refresh-token`, { method: 'GET', headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`${API_BASE_URL}/crm-refresh-token`, { method: 'GET', headers: { Authorization: `Bearer ${accessToken}` } });
       const data = await res.json();
       if (res.ok && data.success) {
         const newToken = data.data.access_token;
@@ -227,7 +227,7 @@ function SearchScreen({ onNavigateToDetails }) {
     e.preventDefault(); setError(null); setBusy(true); setRows(null);
     try {
       const payload = { '1_name': form.n1, '2_name': form.n2, '3_name': form.n3, '4_name': form.n4, 's_name': form.sn, 'mother': form.mom, reason: 'جنائي' };
-      const data = await apiFetch('/wanted/search', { method: 'POST', body: JSON.stringify(payload) });
+      const data = await apiFetch('/moi-search-engine/wanted/search', { method: 'POST', body: JSON.stringify(payload) });
       if (data.noContent) { setRows([]); }
       else if (data.success) { setRows(data.data || []); }
     } catch (err) { setError(err); }
@@ -365,7 +365,7 @@ function FeedbackModal({ sourceId, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault(); setBusy(true); setError(null); setSuccess(null);
     try {
-      const data = await apiFetch('/wanted/details/feedback', { method: 'POST', body: JSON.stringify({ source_id: sourceId, priority: Number(priority), feedback }) });
+      const data = await apiFetch('/moi-search-engine/wanted/details/feedback', { method: 'POST', body: JSON.stringify({ source_id: sourceId, priority: Number(priority), feedback }) });
       const responseData = Array.isArray(data) ? data[0] : data;
       if (responseData && responseData.success) { setSuccess(responseData.data.Ref_No); }
       else { setError({ [language]: (responseData && responseData.message) ? responseData.message[language] : t.genericError }); }
@@ -418,7 +418,7 @@ function DetailsScreen({ sourceId, onBackToSearch }) {
   useEffect(() => {
     (async () => {
       try {
-        const data = await apiFetch('/wanted/details/', { method: 'POST', body: JSON.stringify({ source_id: sourceId }) });
+        const data = await apiFetch('/moi-search-engine/wanted/details/', { method: 'POST', body: JSON.stringify({ source_id: sourceId }) });
         if (data.success) setDetails(data.data); else setError({ [language]: t.genericError });
       } catch (err) { setError(err); }
       finally { setBusy(false); }
@@ -428,7 +428,7 @@ function DetailsScreen({ sourceId, onBackToSearch }) {
   const fetchAttachment = async (filename) => {
     setAttachmentsData(prev => ({ ...prev, [filename]: { loading: true, data: null } }));
     try {
-      const data = await apiFetch('/wanted/attachments', { method: 'POST', body: JSON.stringify({ attachments: [filename] }) });
+      const data = await apiFetch('/moi-search-engine/wanted/attachments', { method: 'POST', body: JSON.stringify({ attachments: [filename] }) });
       if (data.success && data.data.attachments_base64.length > 0) {
         const fileData = data.data.attachments_base64[0];
         if (fileData.success) { setAttachmentsData(prev => ({ ...prev, [filename]: { loading: false, data: fileData.base64, mimeType: fileData.mimeType } })); }
