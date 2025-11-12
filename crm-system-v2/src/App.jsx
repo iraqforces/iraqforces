@@ -110,22 +110,39 @@ function AuthProvider({ children }) {
     if (USE_SIMULATION) { return { success: true, data: [] }; }
     const headers = { ...(options.headers || {}), ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}) };
     if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
-    const res = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers });
+
+    const fullUrl = `${API_BASE_URL}${endpoint}`;
+    console.log('📡 API Request:', fullUrl);
+    console.log('📋 Headers:', headers);
+    console.log('📦 Body:', options.body);
+
+    const res = await fetch(fullUrl, { ...options, headers });
+    console.log('📨 Response Status:', res.status, res.statusText);
+    console.log('📋 Response Content-Type:', res.headers.get('content-type'));
+
     if (res.status === 401 && !isRetry) {
+      console.log('🔄 Token expired, refreshing...');
       try {
         const newTk = await refreshToken();
         return apiFetch(endpoint, { ...options, headers: { ...(options.headers || {}), Authorization: `Bearer ${newTk}`, ...(options.body ? { 'Content-Type': 'application/json' } : {}) } }, true);
       } catch (err) {
+        console.error('❌ Token refresh failed');
         logout();
         throw { [language]: t.sessionExpiredMessage, ar: t.sessionExpiredMessage, en: t.sessionExpiredMessage, ku: t.sessionExpiredMessage };
       }
     }
     if (!res.ok && res.status !== 204) {
       const ed = await res.json().catch(() => ({}));
+      console.error('❌ API Error:', res.status, ed);
       throw ed.message || { [language]: t.genericError };
     }
-    if (res.status === 204) return { success: true, noContent: true, data: [] };
-    return res.json();
+    if (res.status === 204) {
+      console.log('✅ No Content (204)');
+      return { success: true, noContent: true, data: [] };
+    }
+    const jsonData = await res.json();
+    console.log('✅ API Response:', jsonData);
+    return jsonData;
   };
 
   return <AuthContext.Provider value={{ accessToken, login, logout, apiFetch }}>{children}</AuthContext.Provider>;
@@ -243,10 +260,26 @@ function SearchScreen({ onNavigateToDetails }) {
     e.preventDefault(); setError(null); setBusy(true); setRows(null);
     try {
       const payload = { '1_name': form.n1, '2_name': form.n2, '3_name': form.n3, '4_name': form.n4, 's_name': form.sn, 'mother': form.mom, reason: 'جنائي' };
+      console.log('🔍 إرسال طلب البحث:', payload);
       const data = await apiFetch('/moi-search-engine/wanted/search', { method: 'POST', body: JSON.stringify(payload) });
-      if (data.noContent) { setRows([]); }
-      else if (data.success) { setRows(data.data || []); }
-    } catch (err) { setError(err); }
+      console.log('📦 استجابة البحث:', data);
+      console.log('📊 عدد النتائج:', data.data?.length || 0);
+      if (data.noContent) {
+        console.log('⚠️ لا توجد نتائج (noContent)');
+        setRows([]);
+      }
+      else if (data.success) {
+        console.log('✅ البحث نجح، النتائج:', data.data);
+        setRows(data.data || []);
+      }
+      else {
+        console.log('❌ البحث فشل:', data);
+        setError({ ar: 'فشل البحث', en: 'Search failed', ku: 'گەڕان سەرکەوتوو نەبوو' });
+      }
+    } catch (err) {
+      console.error('❌ خطأ في البحث:', err);
+      setError(err);
+    }
     finally { setBusy(false); }
   };
 
