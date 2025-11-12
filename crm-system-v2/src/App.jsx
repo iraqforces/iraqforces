@@ -249,15 +249,14 @@ function LoginScreen() {
   );
 }
 
-function SearchScreen({ onNavigateToDetails }) {
+function SearchScreen({ onNavigateToDetails, searchResults, setSearchResults }) {
   const { t } = useLanguage();
   const { apiFetch } = useAuth();
   const [form, setForm] = useState({ n1: '', n2: '', n3: '', n4: '', sn: '', mom: '' });
   const [busy, setBusy] = useState(false); const [error, setError] = useState(null);
-  const [rows, setRows] = useState(null);
 
   const submit = async (e) => {
-    e.preventDefault(); setError(null); setBusy(true); setRows(null);
+    e.preventDefault(); setError(null); setBusy(true); setSearchResults(null);
     try {
       const payload = { '1_name': form.n1, '2_name': form.n2, '3_name': form.n3, '4_name': form.n4, 's_name': form.sn, 'mother': form.mom, reason: 'جنائي' };
       console.log('🔍 إرسال طلب البحث:', payload);
@@ -266,11 +265,11 @@ function SearchScreen({ onNavigateToDetails }) {
       console.log('📊 عدد النتائج:', data.data?.length || 0);
       if (data.noContent) {
         console.log('⚠️ لا توجد نتائج (noContent)');
-        setRows([]);
+        setSearchResults([]);
       }
       else if (data.success) {
         console.log('✅ البحث نجح، النتائج:', data.data);
-        setRows(data.data || []);
+        setSearchResults(data.data || []);
       }
       else {
         console.log('❌ البحث فشل:', data);
@@ -307,8 +306,8 @@ function SearchScreen({ onNavigateToDetails }) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mt-4 min-h-[160px] flex items-center justify-center">
           {busy && <div className="text-gray-600 dark:text-gray-300">{t.searching}</div>}
           {!busy && error && <div className="text-rose-600 dark:text-rose-400">{error.ar || error.en || error.ku || t.genericError}</div>}
-          {!busy && !error && rows && rows.length === 0 && <div className="text-gray-600 dark:text-gray-300">{t.noResults}</div>}
-          {!busy && !error && rows && rows.length > 0 && (
+          {!busy && !error && searchResults && searchResults.length === 0 && <div className="text-gray-600 dark:text-gray-300">{t.noResults}</div>}
+          {!busy && !error && searchResults && searchResults.length > 0 && (
             <div className="w-full overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
@@ -319,7 +318,7 @@ function SearchScreen({ onNavigateToDetails }) {
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700">
-                  {rows.map(row => (
+                  {searchResults.map(row => (
                     <tr key={row.SOURCE_ID} className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer" onClick={() => onNavigateToDetails(row.SOURCE_ID)}>
                       <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{row.REAL_FULLNAME}</td>
                       <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{row.REAL_MOTHER_NAME}</td>
@@ -576,14 +575,24 @@ function DetailsScreen({ sourceId, onBackToSearch }) {
 function AppCore() {
   const [page, setPage] = useState('login');
   const [selectedSourceId, setSelectedSourceId] = useState(null);
+  const [searchResults, setSearchResults] = useState(null); // ✅ رفع state النتائج هنا للحفاظ عليه
   const { accessToken } = useAuth();
 
-  useEffect(() => { if (!accessToken) { setPage('login'); setSelectedSourceId(null); } else if (page === 'login') { setPage('search'); } }, [accessToken, page]);
+  useEffect(() => {
+    if (!accessToken) {
+      setPage('login');
+      setSelectedSourceId(null);
+      setSearchResults(null); // مسح النتائج عند تسجيل الخروج
+    } else if (page === 'login') {
+      setPage('search');
+    }
+  }, [accessToken, page]);
+
   const handleNavigateToDetails = (sourceId) => { setSelectedSourceId(sourceId); setPage('details'); };
   const handleBackToSearch = () => { setSelectedSourceId(null); setPage('search'); };
 
   if (!accessToken) return <LoginScreen />;
-  if (page === 'search') return <SearchScreen onNavigateToDetails={handleNavigateToDetails} />;
+  if (page === 'search') return <SearchScreen onNavigateToDetails={handleNavigateToDetails} searchResults={searchResults} setSearchResults={setSearchResults} />;
   if (page === 'details') return <DetailsScreen sourceId={selectedSourceId} onBackToSearch={handleBackToSearch} />;
   return <LoginScreen />;
 }
