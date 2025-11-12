@@ -190,6 +190,16 @@ function LoginScreen() {
       console.log('🔐 محاولة تسجيل الدخول إلى:', `${API_BASE_URL}/crm-user-auth-v2`);
       const res = await fetch(`${API_BASE_URL}/crm-user-auth-v2`, { method: 'GET', headers: { Authorization: `Basic ${basic}` } });
       console.log('📡 استجابة السيرفر:', res.status, res.statusText);
+      console.log('📋 Content-Type:', res.headers.get('content-type'));
+
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await res.text();
+        console.error('❌ السيرفر أرجع HTML بدلاً من JSON. أول 200 حرف:', text.substring(0, 200));
+        setError({ [language]: 'المسار /crm-user-auth-v2 غير صحيح أو غير موجود على السيرفر' });
+        return;
+      }
+
       const data = await res.json();
       console.log('📦 البيانات المستلمة:', data);
       if (res.ok && data.success) { login(data.data.access_token); }
