@@ -187,11 +187,17 @@ function LoginScreen() {
     try {
       if (USE_SIMULATION) { login('fake-token'); setBusy(false); return; }
       const basic = btoa(`${u}:${p}`);
+      console.log('🔐 محاولة تسجيل الدخول إلى:', `${API_BASE_URL}/crm-user-auth-v2`);
       const res = await fetch(`${API_BASE_URL}/crm-user-auth-v2`, { method: 'GET', headers: { Authorization: `Basic ${basic}` } });
+      console.log('📡 استجابة السيرفر:', res.status, res.statusText);
       const data = await res.json();
+      console.log('📦 البيانات المستلمة:', data);
       if (res.ok && data.success) { login(data.data.access_token); }
       else setError(data.message || { [language]: t.genericError });
-    } catch (e) { setError({ [language]: t.networkError }); }
+    } catch (e) {
+      console.error('❌ خطأ في تسجيل الدخول:', e);
+      setError({ [language]: t.networkError });
+    }
     finally { setBusy(false); }
   };
 
