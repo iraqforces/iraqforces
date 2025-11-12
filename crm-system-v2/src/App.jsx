@@ -92,7 +92,7 @@ function AuthProvider({ children }) {
 
   const refreshToken = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/crm-refresh-token`, { method: 'GET', headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`${API_BASE_URL}/moi-search-engine/crm-refresh-token`, { method: 'GET', headers: { Authorization: `Bearer ${accessToken}` } });
       const data = await res.json();
       if (res.ok && data.success) {
         const newToken = data.data.access_token;
@@ -187,8 +187,8 @@ function LoginScreen() {
     try {
       if (USE_SIMULATION) { login('fake-token'); setBusy(false); return; }
       const basic = btoa(`${u}:${p}`);
-      console.log('🔐 محاولة تسجيل الدخول إلى:', `${API_BASE_URL}/crm-user-auth-v2`);
-      const res = await fetch(`${API_BASE_URL}/crm-user-auth-v2`, { method: 'GET', headers: { Authorization: `Basic ${basic}` } });
+      console.log('🔐 محاولة تسجيل الدخول إلى:', `${API_BASE_URL}/moi-search-engine/crm-user-auth-v2`);
+      const res = await fetch(`${API_BASE_URL}/moi-search-engine/crm-user-auth-v2`, { method: 'GET', headers: { Authorization: `Basic ${basic}` } });
       console.log('📡 استجابة السيرفر:', res.status, res.statusText);
       console.log('📋 Content-Type:', res.headers.get('content-type'));
 
