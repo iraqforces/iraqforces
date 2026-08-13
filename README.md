@@ -1,13 +1,10 @@
 # Ammar Fatehy
 
-## Enterprise Solutions · Digital Identity · Cybersecurity · Data Engineering
+## Enterprise Architecture · Digital Identity · Cybersecurity · Data & AI
 
-### AI & Automation
-
-I design and deliver secure enterprise systems that connect identity, data,
-applications, and infrastructure. My work spans digital identity, search and
-analytics platforms, integration architecture, automation, and applied AI—with
-security, reliability, and long-term operability built in from the start.
+I architect secure enterprise systems across digital identity, data and search,
+automation, and applied AI. The focus is predictable delivery at scale—with
+security, reliability, and operational clarity designed in from the start.
 
 ---
 
@@ -23,81 +20,70 @@ security, reliability, and long-term operability built in from the start.
 
 ## Core Expertise
 
-### Enterprise & Backend
+### Enterprise Platforms
 
-Enterprise architecture, Oracle Database, Oracle APEX, REST APIs, Python, Rust
+Oracle Database · Oracle APEX · REST APIs · System Integration
 
 ### Data & Search
 
-Elasticsearch, data engineering, ETL, analytics, search systems
+Elasticsearch · Data Engineering · ETL · Analytics
 
 ### Security & Identity
 
-Digital identity, PKI, cryptography, JWT, AES-GCM, secure APIs
+PKI · Cryptography · Digital Identity · JWT · AES-GCM
 
-### Infrastructure
+### Engineering & Infrastructure
 
-Linux, Docker, Nginx, networking, high availability, large-scale systems
+Python · Rust · Linux · Docker · Nginx · Networking
 
-### AI, Vision & Automation
+### AI & Automation
 
-AI integration, n8n, computer vision, OpenCV, workflow automation
+AI Integration · n8n · Computer Vision · OpenCV
 
-## Architecture Mindset
+## Engineering Philosophy
 
-I approach architecture as a set of deliberate trade-offs—not a diagram. The
-systems I build are shaped by:
+Architecture is not about adding complexity. It is about making security, data,
+reliability, and operations work together predictably.
 
-`Security by design` · `Scalability` · `Reliability` · `Observability`
+`Security by Design` · `Scalability` · `Reliability` · `Observability`
 
-`Maintainability` · `Data integrity` · `Privacy`
+`Privacy` · `Maintainability`
 
-## Selected Projects
+## Selected Engineering Work
 
-### Enterprise CRM Engineering Case Study
+### Secure Enterprise Platforms
 
-An architecture and modernization case study covering a multilingual enterprise
-frontend, secure API integration, authentication lifecycle, performance, and
-operational resilience. The repository retains the original analysis and
-implementation notes while this README provides a privacy-safe public overview.
+Identity-aware services, secure API boundaries, cryptographic controls, and
+integration patterns for enterprise environments.
 
-[Explore the engineering analysis](./README_CRM_IMPROVEMENTS.md)
+### Data & Search Systems
 
-### Django Docker Compose Deployment
+Search architecture, data pipelines, analytics foundations, and information
+retrieval designed around integrity and operational visibility.
 
-A compact deployment blueprint for packaging a Django application with Docker
-Compose—the infrastructure foundation for repeatable application delivery.
+### Automation & Applied Intelligence
 
-[View repository](https://github.com/iraqforces/django-docker-compose-deployment)
-
-### OpenCV Document Scanner — Reference Fork
-
-A forked computer-vision reference project for document boundary detection,
-perspective correction, image sharpening, and adaptive thresholding. Included
-as a practical area of exploration; original authorship remains with the
-upstream project.
-
-[View fork and upstream attribution](https://github.com/iraqforces/OpenCV-Document-Scanner)
+Workflow orchestration, computer vision, and AI-assisted automation that connect
+applications, data, and operations.
 
 ## Certifications
 
-### Oracle Certified Professional
+### Oracle Certification
 
-_TODO: Replace this general designation with the exact verified certification
-title and credential details._
+Verified Oracle credential — exact certification title to be added from the
+official credential record.
 
-## Currently Exploring
+## Professional Focus
 
-- Rust for secure, high-performance services
-- Secure system design and threat-aware architecture
-- AI integration within enterprise workflows
-- Advanced data and search platforms
-- Hardware-backed key protection
+- Enterprise architecture and secure digital identity
+- Search and data platforms with AI-assisted automation
+- High-performance services with Rust
+- Hardware-backed cryptographic key protection
 
 ## Contact
 
 - [GitHub — @iraqforces](https://github.com/iraqforces)
-- **LinkedIn:** TODO — add verified profile URL
+- [LinkedIn — Ammar Fatehy](https://www.linkedin.com/in/ammar-fatehy-75b85a226)
 
 ---
 
