@@ -70,11 +70,9 @@ applications, data, and operations.
 
 ### Oracle APEX Cloud Developer Certified Professional
 
-Oracle · Issued September 5, 2023
+Oracle · Issued September 2023
 
-Issued to: **AMMAR FATEHI ABDULMAWLA**
-
-_Official Oracle credential verification link to be added._
+[Verify Credential](https://catalog-education.oracle.com/ords/certview/sharebadge?id=11C8EE6B2A576E9FAED575F711618FE73D1740E8E58A6EA04868C87840F54752)
 
 ## Professional Focus
 
