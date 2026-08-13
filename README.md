@@ -68,10 +68,13 @@ applications, data, and operations.
 
 ## Certifications
 
-### Oracle Certification
+### Oracle APEX Cloud Developer Certified Professional
 
-Verified Oracle credential — exact certification title to be added from the
-official credential record.
+Oracle · Issued September 5, 2023
+
+Issued to: **AMMAR FATEHI ABDULMAWLA**
+
+_Official Oracle credential verification link to be added._
 
 ## Professional Focus
 
